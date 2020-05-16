@@ -3,9 +3,7 @@ import 'package:cscevsev/shared/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cscevsev/models/user.dart';
-
 void main() => runApp(MyApp());
-
 class MyApp extends StatelessWidget {
 
   @override
@@ -19,3 +17,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+

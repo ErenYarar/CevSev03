@@ -40,7 +40,7 @@ final thirdEvent = Event(
     imagePath: "images/cop3.jpg",
     title: "Katıldığım üçüncü etkinlik!",
     description: "Katıldığım üçüncü etkinlik oldu... Çok Eğlenceliydi!",
-    location: "D.Y. Patil Stadium, Mumbai",
+    location: "D.Y. Maslak, Istanbul",
     duration: "5h",
     punchLine1: "Music Lovers!",
     punchLine2: "The latest fad in foodology, get the inside scoup.",

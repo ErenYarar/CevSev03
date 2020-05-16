@@ -29,15 +29,34 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   cached_network_image: ^2.0.0
   flutter_signin_button: ^0.2.8
+  flutter_share_social_media: ^0.2.0
+  flutter_share_me: ^0.1.3
+  eva_icons_flutter: ^2.0.0
+  flutter_launcher_icons: ^0.7.5
+  get_it: ^4.0.2
+  firebase_storage: ^3.1.5
+  json_serializable: ^2.0.2
+  path:
+  camera:
+  geolocator: ^5.3.1
+  image_cropper: ^1.2.1
+  giffy_dialog: ^1.7.0
+  true_time: ^0.1.0
+  intl: ^0.16.1
+  date_format: ^1.0.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  build_runner: ^1.0.0
+  build_test: ^0.10.3
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  image_path: "Images/firstLook.png"
+  android: "launcher_icon"
+  ios: true
 
-# The following section is specific to Flutter.
+
 flutter:
 
   # The following line ensures that the Material Icons font is
@@ -69,6 +88,16 @@ flutter:
     - images/anonim1.png
     - images/anonim2.png
     - images/nickfrost.jpg
+    - images/redMarker.png
+    - images/kameraGif.gif
+    - images/blueMarker.png
+    - images/galleryGif.gif
+    - images/emptyGif.gif
+    - images/markerGif.gif
+    - images/mapMarkerGif.gif
+    - images/mapGif.gif
+    - images/worldMapGif.gif
+    - images/loadGif.gif
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

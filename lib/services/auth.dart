@@ -1,7 +1,6 @@
 import 'package:cscevsev/models/user.dart';
 import 'package:cscevsev/services/firestore_db_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -70,15 +69,12 @@ class AuthService {
 
   // sign out
   Future signOut() async {
-    /*
     try {
       return await _auth.signOut();
-    } catch (error) {
-      print(error.toString());
+    } catch (e) {
+      print(e.toString());
       return null;
     }
-    */
-    await _auth.signOut();
   }
 
   Future sendPasswordResetEmail(String email) async {

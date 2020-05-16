@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'package:cscevsev/screens/home/Profil/TabBarDemo.dart';
+import 'package:cscevsev/screens/home/Profil/profile.dart';
 import 'package:cscevsev/screens/home/camera.dart';
 import 'package:cscevsev/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:cscevsev/screens/home/Profil/profile.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'Etkinlik/etkinlikAyrintiSayfasi.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   Home() : super();
@@ -16,17 +18,19 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-
   //File imageFile;
-  final AuthService _auth = AuthService();
+  //final AuthService _auth = AuthService();
 
   final _formKey = GlobalKey<FormState>();
   String error = '';
   bool loading = false;
 
+  //////////////////
+
   Completer<GoogleMapController> _controller = Completer();
   static const LatLng _center = const LatLng(41.015137, 28.979530);
   final Set<Marker> _markers = {};
+  //final Map<String, Marker> _markers = {};
   LatLng _lastMapPosition = _center;
   MapType _currentMapType = MapType.normal;
 
@@ -58,29 +62,35 @@ class HomeState extends State<Home> {
     });
   }
 
-  _onAddMarkerButtonPressed() {
+  _onAddMarkerButtonPressed() async {
     setState(() {
       _markers.add(Marker(
         markerId: MarkerId(_lastMapPosition.toString()),
         position: _lastMapPosition,
         infoWindow: InfoWindow(
-          title: 'This is a Title',
-          snippet: 'This is a snippet',
+          title: "Kirli alan",
+          snippet: "Temizlenmesi gereken yer",
         ),
-        icon: BitmapDescriptor.defaultMarker,
+        //icon: BitmapDescriptor.defaultMarker,
+        icon: BitmapDescriptor.fromAsset('images/mapMarkerGif.gif'),
       ));
     });
   }
+
+
 
   Widget button(Function function, IconData icon) {
     return FloatingActionButton(
       heroTag: null,
       onPressed: function,
       materialTapTargetSize: MaterialTapTargetSize.padded,
-      backgroundColor: Colors.lime,
+      backgroundColor: Colors.white24,
+      //foregroundColor: Colors.white,
       child: Icon(icon, size: 36.0),
     );
   }
+
+  /////////////////////
 
   int currentTab = 0; // to keep track of active tab index
   final List<Widget> screens = [
@@ -91,22 +101,11 @@ class HomeState extends State<Home> {
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = Home();
 
-  File imageFile;
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      imageFile = image;
-    });
-    //Navigator.of(context).pop();
-  }
-
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: Scaffold(
         backgroundColor: Colors.blueGrey[100],
-
         body: Stack(
           children: <Widget>[
             GoogleMap(
@@ -141,15 +140,24 @@ class HomeState extends State<Home> {
                 ),
               ),
             ),
-            /////////////////////////////////////////
+
           ],
         ),
 
+///////////////////////
+        /*
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.white,
           foregroundColor: Colors.grey,
           splashColor: Colors.green[500],
-          onPressed: getImage,
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EtkinlikAyrinti(),
+              ),
+            );
+          },
           tooltip: 'Pick Image',
           child: Icon(
             Icons.camera_alt,
@@ -157,8 +165,6 @@ class HomeState extends State<Home> {
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
           notchMargin: 8,
@@ -181,8 +187,10 @@ class HomeState extends State<Home> {
                         children: <Widget>[
                           Icon(
                             Icons.map,
-                            size: 35.0,
-                            color: currentTab == 0 ? Colors.green[500] : Colors.grey,
+                            size: 40.0,
+                            color: currentTab == 0
+                                ? Colors.green[500]
+                                : Colors.grey,
                           ),
                           /*Text(
                             'Map',
@@ -205,16 +213,20 @@ class HomeState extends State<Home> {
                     MaterialButton(
                       minWidth: 40,
                       onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => TabBarDemo()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TabBarDemo()));
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(
                             Icons.perm_identity,
-                            size: 35.0,
-                            color: currentTab == 2 ? Colors.green[500] : Colors.grey,
+                            size: 40.0,
+                            color: currentTab == 2
+                                ? Colors.green[500]
+                                : Colors.grey,
                           ),
                           /*Text(
                             'Profile',
@@ -230,6 +242,102 @@ class HomeState extends State<Home> {
                 )
               ],
             ),
+          ),
+        ),
+        */
+        /*
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.grey,
+          splashColor: Colors.green[500],
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EtkinlikAyrinti(),
+              ),
+            );
+          },
+          child: Icon(
+            Icons.camera_alt,
+            size: 35.0,
+          ),
+        ),
+
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EtkinlikAyrinti(),
+              ),
+            );
+          },
+          label: Text(
+              'Camera',
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          icon: Icon(
+              Icons.camera,
+              size: 30.0,
+          ),
+          backgroundColor: Colors.pink,
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          */
+/*
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.pink,
+          child: Icon(
+            Icons.camera,
+            size: 35.0,
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EtkinlikAyrinti(),
+              ),
+            );
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+*/
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(left: 30.0,bottom:0.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              FloatingActionButton(
+                heroTag: null,
+                onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => EtkinlikAyrinti()));},
+                child: Icon(
+                  Icons.camera,
+                  size: 35.0,
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                backgroundColor: Colors.pinkAccent,
+              ),
+              FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TabBarDemo(),
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.person,
+                  size: 35.0,
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                backgroundColor: Colors.blueAccent,
+              )
+            ],
           ),
         ),
       ),

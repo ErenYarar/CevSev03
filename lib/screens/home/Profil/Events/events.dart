@@ -6,8 +6,8 @@ import 'package:cscevsev/screens/home/Profil/Events/events_deatils_with_four/eve
 import 'package:cscevsev/screens/home/Profil/styleguide.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-
+import 'package:cscevsev/screens/home/Profil/Events/category_details/category.dart';
+import 'package:cscevsev/screens/home/Profil/Events/category_details/category_widget.dart';
 class Events extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,10 @@ class Events extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 10.0),
                       child: Row(
                         children: <Widget>[
+                          SizedBox(height: 10.0),
                           Text(
                             "LOCAL EVENTS",
                             style: fadedTextStyle,
@@ -48,7 +49,7 @@ class Events extends StatelessWidget {
                         style: whiteHeadingTextStyle,
                       ),
                     ),
-                    /*
+
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 24.0),
                       child: Consumer<AppState>(
@@ -60,7 +61,7 @@ class Events extends StatelessWidget {
                         ),
                       ),
                     ),
-                    */
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Consumer<AppState>(

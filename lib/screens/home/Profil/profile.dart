@@ -1,12 +1,17 @@
 import 'dart:io';
-import 'package:cscevsev/screens/home/camera.dart';
-import 'package:cscevsev/screens/home/Profil/settings.dart';
+import 'package:cscevsev/screens/home/Etkinlik/etkinlikAyrintiSayfasi.dart';
+import 'package:cscevsev/screens/home/Profil/TabBarDemo.dart';
+import 'package:cscevsev/screens/home/home.dart';
+import 'package:cscevsev/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cscevsev/screens/home/home.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_share_me/flutter_share_me.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' show join;
 
 void main() => runApp(MyApp());
 
@@ -21,15 +26,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Profil extends StatelessWidget {
+class Profil extends StatelessWidget
+{
 
-  //final PageStorageBucket bucket = PageStorageBucket();
-  //Widget currentScreen = Profil();
-
+  final AuthService _auth = AuthService();
   final String _fullName = "Alson Frost";
   final String _status = "Software Developer";
   final String _bio =
-      "\"Hi, I am a Freelance developer working for hourly basis. If you wants to contact me to build your product leave a message.\"";
+      "\"Hi, My name is Alson Frost. Let's solve the environmental pollution in Istanbul together. If you want to organize events together, you can contact me.\"";
+
 
   Widget _buildCoverImage(Size screenSize) {
     return Container(
@@ -131,44 +136,35 @@ class Profil extends StatelessWidget {
       color: Theme.of(context).scaffoldBackgroundColor,
       padding: EdgeInsets.only(top: 8.0),
       child: Text(
-        "Get in Touch with ${_fullName.split(" ")[0]},",
+        "Get in Touch with ${_fullName.split(" ")[0]}",
         style: TextStyle(
             //fontFamily: 'Roboto',
             fontSize: 16.0),
       ),
     );
   }
-
-  Widget _buildButtons() {
+/*
+  Widget _buildButtons(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 28.0, horizontal: 16.0),
       child: Row(
         children: <Widget>[
           Expanded(
             child: InkWell(
-              onTap: () => print("followed"),
-              child: Container(
-                height: 40.0,
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                  color: Color(0xFF404A5C),
-                ),
-                child: Center(
-                  child: Text(
-                    "FOLLOW",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+              onTap: () {
+                AlertDialog(
+                  title: new Text("Social Media"),
+                  content: _shareSocialMedia(),
+                  actions: <Widget>[
+                    new FlatButton(
+                      child: new Text("Close"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                     ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 10.0),
-          Expanded(
-            child: InkWell(
-              onTap: () => print("Message"),
+                  ],
+                );
+              },
               child: Container(
                 height: 40.0,
                 decoration: BoxDecoration(
@@ -178,13 +174,37 @@ class Profil extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.all(10.0),
                     child: Text(
-                      "MESSAGE",
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      "Social Media",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 18.0),
                     ),
                   ),
                 ),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+*/
+
+  @override
+  Widget _shareSocialMedia() {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            children: [
+              new IconButton(
+                icon: new Icon(Icons.assistant_photo, color: Colors.red),
+                onPressed: () async {
+                  await _auth.signOut();
+                },
+                iconSize: 50.0,),
+            ],
           ),
         ],
       ),
@@ -211,7 +231,9 @@ class Profil extends StatelessWidget {
                   SizedBox(height: 10.0),
                   _buildGetInTouch(context),
                   SizedBox(height: 8.0),
-                  _buildButtons(),
+                  _shareSocialMedia(),
+                  //_footer(context),
+                  //_buildButtons(context),
                 ],
               ),
             ),
@@ -222,6 +244,87 @@ class Profil extends StatelessWidget {
   }
 }
 
+
+@override
+Widget _footerMedia(BuildContext context) {
+  return Scaffold(
+    floatingActionButton: Padding(
+      padding: const EdgeInsets.only(left: 30.0,bottom:0.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          FloatingActionButton(
+            heroTag: null,
+            onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));},
+            child: Icon(
+              Icons.map,
+              size: 35.0,
+            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+            backgroundColor: Colors.pinkAccent,
+          ),
+          FloatingActionButton(
+            heroTag: null,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EtkinlikAyrinti(),
+                ),
+              );
+            },
+            child: Icon(
+              Icons.camera,
+              size: 35.0,
+            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+            backgroundColor: Colors.blueAccent,
+          )
+        ],
+      ),
+    ),
+  );
+}
+
+
+/*
+floatingActionButton: Padding(
+          padding: const EdgeInsets.only(left: 30.0,bottom:0.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              FloatingActionButton(
+                heroTag: null,
+                onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => EtkinlikAyrinti()));},
+                child: Icon(
+                  Icons.camera,
+                  size: 35.0,
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                backgroundColor: Colors.pinkAccent,
+              ),
+              FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TabBarDemo(),
+                    ),
+                  );
+                },
+                child: Icon(
+                  Icons.person,
+                  size: 35.0,
+                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                backgroundColor: Colors.blueAccent,
+              )
+            ],
+          ),
+        ),
+
+*/
 
 /*
 class Profil extends StatefulWidget {

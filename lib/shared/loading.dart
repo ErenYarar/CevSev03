@@ -7,10 +7,7 @@ class Loading extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: Center(
-        child: SpinKitChasingDots(
-          color: Colors.blueAccent,
-          size: 65.0,
-        ),
+        child: Image.asset("images/loadGif.gif", width: 300, height: 300,),
       ),
     );
   }
