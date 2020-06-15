@@ -72,7 +72,7 @@ class _SettingsState extends State<Settings> {
                         //open edit profile
                       },
                       title: Text(
-                        "John Doe",
+                        "Alson Frost",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w500,

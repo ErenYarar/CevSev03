@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:cscevsev/screens/home/Profil/TabBarDemo.dart';
 import 'package:cscevsev/screens/home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:giffy_dialog/giffy_dialog.dart';
 //import 'package:intl/intl.dart';
 //import 'package:date_format/date_format.dart';
+
 
 void main() {
   runApp(new MaterialApp(
@@ -43,10 +45,29 @@ class _EtkinlikAyrintiState extends State<EtkinlikAyrinti> {
     Navigator.of(context).pop();
   }
 
+  DateTime selectedDate = DateTime.now();
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
+
+
+
+
 
   Future<void> _showChoiceDialog(BuildContext context) {
     //_openCamera(context);
     //_openGallery(context);
+
+
 /*
     return showDialog(context: context, builder: (BuildContext context){
       return AlertDialog(
@@ -158,6 +179,8 @@ class _EtkinlikAyrintiState extends State<EtkinlikAyrinti> {
     return Image.file(imageFile);
   }
 
+  String dropdownValue = '1';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,7 +190,7 @@ class _EtkinlikAyrintiState extends State<EtkinlikAyrinti> {
             //mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _decideImageView(),
-              Column(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   RaisedButton.icon(
@@ -177,21 +200,18 @@ class _EtkinlikAyrintiState extends State<EtkinlikAyrinti> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     label: Text(
-                      'Camera',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25.0,
-                      ),
+                      '',
                     ),
                     icon: Icon(
                       Icons.camera_alt,
                       color: Colors.white,
-                      size: 25.0,
+                      size: 30.0,
                     ),
                     textColor: Colors.white,
                     splashColor: Colors.lightBlue,
                     color: Colors.red,
                   ),
+
                   RaisedButton.icon(
                     onPressed: () {
                       _showChoiceGalleryDialog(context);
@@ -199,16 +219,12 @@ class _EtkinlikAyrintiState extends State<EtkinlikAyrinti> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(10.0))),
                     label: Text(
-                      'Gallery',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25.0,
-                      ),
+                      '',
                     ),
                     icon: Icon(
                       Icons.image,
                       color: Colors.white,
-                      size: 25.0,
+                      size: 30.0,
                     ),
                     textColor: Colors.white,
                     splashColor: Colors.red,
@@ -216,9 +232,87 @@ class _EtkinlikAyrintiState extends State<EtkinlikAyrinti> {
                   )
                 ],
               ),
-              //SizedBox(height: 15.0),
+              SizedBox(height: 20.0),
+              Text(
+                "${selectedDate.toLocal()}".split(' ')[0],
+                style: TextStyle(
+                  fontSize: 20.0,
+                ),
+              ),
+              RaisedButton.icon(
+                onPressed: () => _selectDate(context),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                label: Text(
+                  'Select date',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                  ),
+                ),
+                icon: Icon(
+                  Icons.date_range,
+                  color: Colors.white,
+                  size: 25.0,
+                ),
+                textColor: Colors.white,
+                splashColor: Colors.red,
+                color: Colors.blueAccent,
+              ),
 
-              SizedBox(height: 150.0),
+
+              SizedBox(height: 10.0),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+
+                children: <Widget>[
+                  Image.network(
+                      'https://coastlinemarketinggroup.com/wp-content/uploads/local-map-icon-mapicon-300x169.png',
+                      width: 150,
+                      height: 100,
+                    //fit:BoxFit.fill
+                  ),
+                  ListTile(
+                    title: Text(
+                        'Seçilen Alan',
+                      textAlign: TextAlign.center,
+                    ),
+                    subtitle: Text(
+                        'Pendik / İstanbul',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+
+          DropdownButton<String>(
+            value: dropdownValue,
+            icon: Icon(Icons.accessibility),
+            iconSize: 24,
+            elevation: 16,
+            style: TextStyle(color: Colors.deepPurple),
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
+            ),
+            onChanged: (String newValue) {
+              setState(() {
+                dropdownValue = newValue;
+              });
+            },
+
+            items: <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+
+
+              SizedBox(height: 30.0),
               RaisedButton.icon(
                 onPressed: () {
                   Navigator.push(

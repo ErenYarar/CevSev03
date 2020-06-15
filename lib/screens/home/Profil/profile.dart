@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cscevsev/screens/home/Etkinlik/etkinlikAyrintiSayfasi.dart';
 import 'package:cscevsev/screens/home/Profil/TabBarDemo.dart';
+import 'package:cscevsev/screens/home/Profil/settings.dart';
 import 'package:cscevsev/screens/home/home.dart';
 import 'package:cscevsev/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -143,54 +144,10 @@ class Profil extends StatelessWidget
       ),
     );
   }
-/*
-  Widget _buildButtons(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 28.0, horizontal: 16.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: InkWell(
-              onTap: () {
-                AlertDialog(
-                  title: new Text("Social Media"),
-                  content: _shareSocialMedia(),
-                  actions: <Widget>[
-                    new FlatButton(
-                      child: new Text("Close"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                );
-              },
-              child: Container(
-                height: 40.0,
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      "Social Media",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 18.0),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-*/
+
 
   @override
-  Widget _shareSocialMedia() {
+  Widget _buttons(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 16.0),
       child: Row(
@@ -198,12 +155,35 @@ class Profil extends StatelessWidget
         children: <Widget>[
           Row(
             children: [
-              new IconButton(
-                icon: new Icon(Icons.assistant_photo, color: Colors.red),
-                onPressed: () async {
-                  await _auth.signOut();
+              FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Home()));
                 },
-                iconSize: 50.0,),
+                child: Icon(
+                  Icons.map,
+                  size: 35.0,
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                backgroundColor: Colors.pinkAccent,
+              ),
+              SizedBox(width: 267),
+              FloatingActionButton(
+                heroTag: null,
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => Settings()));
+                },
+                child: Icon(
+                  Icons.settings,
+                  size: 35.0,
+                ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                backgroundColor: Colors.blue,
+              ),
             ],
           ),
         ],
@@ -230,8 +210,8 @@ class Profil extends StatelessWidget
                   _buildSeparator(screenSize),
                   SizedBox(height: 10.0),
                   _buildGetInTouch(context),
-                  SizedBox(height: 8.0),
-                  _shareSocialMedia(),
+                  SizedBox(height: 58.0),
+                  _buttons(context),
                   //_footer(context),
                   //_buildButtons(context),
                 ],

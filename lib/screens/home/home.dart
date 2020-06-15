@@ -1,36 +1,24 @@
-import 'dart:io';
+import 'package:cscevsev/screens/home/Etkinlik/etkinlikAyrintiSayfasi.dart';
 import 'package:cscevsev/screens/home/Profil/TabBarDemo.dart';
-import 'package:cscevsev/screens/home/Profil/profile.dart';
-import 'package:cscevsev/screens/home/camera.dart';
-import 'package:cscevsev/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'Etkinlik/etkinlikAyrintiSayfasi.dart';
-import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
-  Home() : super();
-
   @override
   HomeState createState() => HomeState();
 }
 
 class HomeState extends State<Home> {
-  //File imageFile;
-  //final AuthService _auth = AuthService();
-
-  final _formKey = GlobalKey<FormState>();
-  String error = '';
-  bool loading = false;
-
-  //////////////////
-
   Completer<GoogleMapController> _controller = Completer();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+  double zoomVal=5.0;
   static const LatLng _center = const LatLng(41.015137, 28.979530);
   final Set<Marker> _markers = {};
-  //final Map<String, Marker> _markers = {};
   LatLng _lastMapPosition = _center;
   MapType _currentMapType = MapType.normal;
 
@@ -90,257 +78,245 @@ class HomeState extends State<Home> {
     );
   }
 
-  /////////////////////
 
-  int currentTab = 0; // to keep track of active tab index
-  final List<Widget> screens = [
-    Home(),
-    Camera(),
-    TabBarDemo(),
-  ]; // to store nested tabs
-  final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = Home();
+
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        backgroundColor: Colors.blueGrey[100],
-        body: Stack(
-          children: <Widget>[
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                target: _center,
-                zoom: 11.0,
-              ),
-              mapType: _currentMapType,
-              markers: _markers,
-              onCameraMove: _onCameraMove,
-            ),
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    button(_onMapTypeButtonPressed, Icons.public),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    button(_onAddMarkerButtonPressed, Icons.add_location),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    button(_goToPosition1, Icons.location_searching),
-                  ],
-                ),
-              ),
-            ),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          _buildGoogleMap(context),
+          _buildContainer(),
+        ],
+      ),
+    );
+  }
 
+  Widget _buildContainer() {
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 20.0),
+        height: 150.0,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: <Widget>[
+            SizedBox(width: 10.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _boxes(
+                  "https://www.sakaryahalk.com/resimler/haberler/d_fbd118f97984d254a087b0fdb77d613c.jpg",
+                  41.1623, 29.0474,"Sarıyer"),
+            ),
+            SizedBox(width: 10.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _boxes(
+                  "https://www.mus.gen.tr/resimler/haber/piknik_alanlari_copten_gecilmiyor_h8696.jpg",
+                  41.0422, 29.0067,"Beşiktaş"),
+            ),
+            SizedBox(width: 10.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _boxes(
+                  "https://lh3.googleusercontent.com/proxy/9nYjhjpgBxYK919TcL4esMi4O2ITaZwl26CcFUtdx060idjhY-1BnKeblarB2d26AxroeftWbN3FUZtB7rdtFR5gz0Tx_LMv498uiBVnQs6s1aXh",
+                  40.9819, 29.0576,"Kadıköy"),
+            ),
           ],
         ),
+      ),
+    );
+  }
 
-///////////////////////
-        /*
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.grey,
-          splashColor: Colors.green[500],
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EtkinlikAyrinti(),
-              ),
-            );
-          },
-          tooltip: 'Pick Image',
-          child: Icon(
-            Icons.camera_alt,
-            size: 35.0,
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomAppBar(
-          shape: CircularNotchedRectangle(),
-          notchMargin: 8,
-          child: Container(
-            height: 60,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => Home()));
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.map,
-                            size: 40.0,
-                            color: currentTab == 0
-                                ? Colors.green[500]
-                                : Colors.grey,
-                          ),
-                          /*Text(
-                            'Map',
-                            style: TextStyle(
-                              color:
-                                  currentTab == 0 ? Colors.green[500] : Colors.grey,
-                            ),
-                          ),*/
-                        ],
+  Widget _boxes(String _image, double lat,double long,String restaurantName) {
+    return  GestureDetector(
+      onTap: () {
+        _gotoLocation(lat,long);
+      },
+      child:Container(
+        child: new FittedBox(
+          child: Material(
+              color: Colors.white,
+              elevation: 14.0,
+              borderRadius: BorderRadius.circular(24.0),
+              shadowColor: Color(0x802196F3),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    width: 180,
+                    height: 200,
+                    child: ClipRRect(
+                      borderRadius: new BorderRadius.circular(24.0),
+                      child: Image(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(_image),
                       ),
+                    ),),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: myDetailsContainer1(restaurantName),
                     ),
-                  ],
-                ),
+                  ),
 
-                // Right Tab bar icons
-
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    MaterialButton(
-                      minWidth: 40,
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => TabBarDemo()));
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.perm_identity,
-                            size: 40.0,
-                            color: currentTab == 2
-                                ? Colors.green[500]
-                                : Colors.grey,
-                          ),
-                          /*Text(
-                            'Profile',
-                            style: TextStyle(
-                              color:
-                                  currentTab == 2 ? Colors.green[500] : Colors.grey,
-                            ),
-                          ),*/
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-        */
-        /*
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.grey,
-          splashColor: Colors.green[500],
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EtkinlikAyrinti(),
-              ),
-            );
-          },
-          child: Icon(
-            Icons.camera_alt,
-            size: 35.0,
-          ),
-        ),
-
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EtkinlikAyrinti(),
-              ),
-            );
-          },
-          label: Text(
-              'Camera',
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
-          ),
-          icon: Icon(
-              Icons.camera,
-              size: 30.0,
-          ),
-          backgroundColor: Colors.pink,
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-          */
-/*
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.pink,
-          child: Icon(
-            Icons.camera,
-            size: 35.0,
-          ),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EtkinlikAyrinti(),
-              ),
-            );
-          },
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-*/
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(left: 30.0,bottom:0.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              FloatingActionButton(
-                heroTag: null,
-                onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => EtkinlikAyrinti()));},
-                child: Icon(
-                  Icons.camera,
-                  size: 35.0,
-                ),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                backgroundColor: Colors.pinkAccent,
-              ),
-              FloatingActionButton(
-                heroTag: null,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TabBarDemo(),
-                    ),
-                  );
-                },
-                child: Icon(
-                  Icons.person,
-                  size: 35.0,
-                ),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                backgroundColor: Colors.blueAccent,
-              )
-            ],
+                ],)
           ),
         ),
       ),
     );
   }
+
+  Widget myDetailsContainer1(String restaurantName) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Container(
+              child: Text(restaurantName,
+                style: TextStyle(
+                    color: Color(0xff6200ee),
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold),
+              )),
+        ),
+        SizedBox(height:5.0),
+
+        Container(
+            child: Text(
+              "İstanbul  Acil!",
+              style: TextStyle(
+                color: Colors.black54,
+                fontSize: 18.0,
+              ),
+            )),
+        SizedBox(height:5.0),
+        Container(
+            child: Text(
+              "Fotoğraf \u00B7 17.04.2020\n Tarihinde çekildi.",
+              style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
+            )),
+      ],
+    );
+  }
+
+  Widget _buildGoogleMap(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: GoogleMap(
+            mapType: _currentMapType,
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              target: _center,
+              zoom: 11.0,
+            ),
+            markers: _markers,
+            onCameraMove: _onCameraMove,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 16.0,
+                ),
+                button(_onMapTypeButtonPressed, Icons.public),
+                SizedBox(
+                  height: 16.0,
+                ),
+                button(_onAddMarkerButtonPressed, Icons.add_location),
+                SizedBox(
+                  height: 16.0,
+                ),
+                button(_goToPosition1, Icons.location_searching),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Align(
+            alignment: Alignment.topLeft,
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 20.0,
+                ),
+                FloatingActionButton(
+                  heroTag: null,
+                  onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (context) => EtkinlikAyrinti()));},
+                  child: Icon(
+                    Icons.camera,
+                    size: 35.0,
+                    color: Colors.green,
+                  ),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                  backgroundColor: Colors.white54,
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                FloatingActionButton(
+                  heroTag: null,
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TabBarDemo(),
+                      ),
+                    );
+                  },
+                  child: Icon(
+                    Icons.person,
+                    size: 35.0,
+                    color: Colors.green,
+                  ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                  backgroundColor: Colors.white54,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _gotoLocation(double lat,double long) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(lat, long), zoom: 15,tilt: 50.0,
+      bearing: 45.0,)));
+  }
 }
+
+Marker sariyer = Marker(
+  markerId: MarkerId('Sariyer'),
+  position: LatLng(41.1623, 29.0474),
+  infoWindow: InfoWindow(title: 'Sariyer'),
+  icon: BitmapDescriptor.fromAsset('images/mapMarkerGif.gif'),
+);
+
+Marker besiktas = Marker(
+  markerId: MarkerId('Besiktas'),
+  position: LatLng(41.0422, 29.0067),
+  infoWindow: InfoWindow(title: 'Besiktas'),
+  icon: BitmapDescriptor.fromAsset('images/mapMarkerGif.gif'),
+);
+Marker kadikoy = Marker(
+  markerId: MarkerId('Kadikoy'),
+  position: LatLng(40.9819, 29.0576),
+  infoWindow: InfoWindow(title: 'Kadikoy'),
+  icon: BitmapDescriptor.fromAsset('images/mapMarkerGif.gif'),
+);
