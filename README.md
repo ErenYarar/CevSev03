@@ -1,4 +1,7 @@
 # cevsev
+## Telefonda uygulama resminin görüntüsü
+![(1)Telefon](https://user-images.githubusercontent.com/41026127/82121757-1583be00-9798-11ea-8b90-1909eb8ff68d.PNG)
+
 ## Giriş / Kayıt Ekranı
 ![(7)TELEFONgirişekranıResim](https://user-images.githubusercontent.com/41026127/82122578-3ef31880-979d-11ea-9521-c867a0eb45a4.PNG)
 ![(13)TELEFONKayıtEkranı1](https://user-images.githubusercontent.com/41026127/82122577-3e5a8200-979d-11ea-8733-bc20cf57f449.PNG)
@@ -8,6 +11,8 @@
 ![(10 1)TELEFONForgetPasswordResim2](https://user-images.githubusercontent.com/41026127/82122575-3dc1eb80-979d-11ea-89dd-5e580fef501b.PNG)
 ![(10 2)TELEFONForgetPasswordResim3](https://user-images.githubusercontent.com/41026127/82122576-3e5a8200-979d-11ea-8fd0-38fa68557ff1.PNG)
 
+## Loading
+![(16 1)LoadingResim](https://user-images.githubusercontent.com/41026127/82122584-40bcdc00-979d-11ea-8bf6-574a4f8e7a45.PNG)
 
 ## Harita Ekranı / Home
 ![anasayfaHarita](https://user-images.githubusercontent.com/41026127/84643842-0d3db080-af07-11ea-9d18-cc7d1fa00d3a.PNG)
