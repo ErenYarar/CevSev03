@@ -32,6 +32,9 @@
 ![ayarlar](https://user-images.githubusercontent.com/41026127/84644013-3f4f1280-af07-11ea-9e41-45aab424992f.PNG)
 ![ayarlar2](https://user-images.githubusercontent.com/41026127/84644015-3fe7a900-af07-11ea-801d-bbf8ae9ebfd3.PNG)
 ## Etkinliklerim
+![(21)Etkinlik](https://user-images.githubusercontent.com/41026127/82122585-40bcdc00-979d-11ea-9695-db8c996180ee.PNG)
+![(21 2)etkinlik3](https://user-images.githubusercontent.com/41026127/82122588-41ee0900-979d-11ea-81b8-eb4bd0287448.PNG)
+![(21 3)etkinlik4](https://user-images.githubusercontent.com/41026127/82122591-431f3600-979d-11ea-8a9a-3d6dacc3ce4d.PNG)
 
 ## En çevreciler
 ![ençevreciler](https://user-images.githubusercontent.com/41026127/84644018-3fe7a900-af07-11ea-970c-41e105933f4c.PNG)
