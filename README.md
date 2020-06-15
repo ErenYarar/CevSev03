@@ -1,4 +1,4 @@
-# cevsev
+# cevsev - CSC- Grup_19
 ## Telefonda uygulama resminin görüntüsü
 ![(1)Telefon](https://user-images.githubusercontent.com/41026127/82121757-1583be00-9798-11ea-8b90-1909eb8ff68d.PNG)
 
